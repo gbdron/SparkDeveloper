@@ -16,11 +16,10 @@ class PostgresqlSpec extends AnyFlatSpec with TestContainerForAll {
 
   "PostgreSQL data source" should "read table" in withContainers {
     postgresServer =>
-      val spark = SparkSession
-        .builder()
-        .master("local[*]")
-        .appName("PostgresReaderJob")
-        .getOrCreate()
+       val spark = SparkSession.builder
+      .appName("PostgresReaderJob")
+      .master("spark://192.168.1.50:7077")
+      .getOrCreate()  
 
       spark.read
         .format("ru.otus.spark.datasource.postgres")
@@ -36,11 +35,12 @@ class PostgresqlSpec extends AnyFlatSpec with TestContainerForAll {
 
   "PostgreSQL data source" should "write table" in withContainers {
     postgresServer =>
-      val spark = SparkSession
-        .builder()
-        .master("local[*]")
-        .appName("PostgresWriterJob")
-        .getOrCreate()
+       val spark = SparkSession.builder
+      .appName("PostgresWriterJob")
+      .master("spark://192.168.1.50:7077")
+      .getOrCreate() 
+
+       
 
       import spark.implicits._
 
@@ -83,7 +83,7 @@ class PostgresqlSpec extends AnyFlatSpec with TestContainerForAll {
 
   object Queries {
     lazy val createTableQuery =
-      s"CREATE TABLE $testTableName (user_id BIGINT PRIMARY KEY);"
+      s"CREATE TABLE IF NOT EXISTS $testTableName (user_id BIGINT PRIMARY KEY);"
 
     lazy val testValues: String = (1 to 50).map(i => s"($i)").mkString(", ")
 

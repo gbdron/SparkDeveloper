@@ -2,8 +2,8 @@ name := "spark_custom_connector"
 
 version := "0.1"
 
-scalaVersion := "2.12.13"
-val sparkVersion = "3.4.1"
+scalaVersion := "2.12.19"
+val sparkVersion = "3.5.1"
 val testcontainersScalaVersion = "0.41.0"
 
 libraryDependencies ++= Seq(
