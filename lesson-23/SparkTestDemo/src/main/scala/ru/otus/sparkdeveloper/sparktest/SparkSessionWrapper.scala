@@ -7,7 +7,6 @@ trait SparkSessionWrapper {
   lazy val spark: SparkSession = SparkSession
     .builder()
     .appName("SparkProdApp")
-    .master("yarn")
+    .master("spark://192.168.1.50:7077")
     .getOrCreate
-
 }
